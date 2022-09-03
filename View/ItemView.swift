@@ -4,7 +4,6 @@ struct ItemView: View {
     @StateObject var cartData = CartViewModel()
     @Binding var item: Item
     @Binding var items: [Item]
-// changing these to state variables prevents the quantity adding from working
     var body: some View {
         ZStack{
             HStack{
