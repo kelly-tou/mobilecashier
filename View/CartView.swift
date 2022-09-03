@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct CartView: View {
-    @StateObject var cartData = CartViewModel()
     @State var itemName: String = ""
     @State var itemPrice: Float = 0
     @EnvironmentObject var cartViewModel: CartViewModel
@@ -20,7 +19,6 @@ struct CartView: View {
                 Spacer()
                 
                 Button {
-//                    alertTF(title: "Add a New Item", hintText1: "Name", hintText2: "Price", primaryTitle: "Cancel", secondaryTitle: "Save")})
                     cartViewModel.openAddItem.toggle()
                     
                 } label: {
@@ -37,12 +35,8 @@ struct CartView: View {
             
             ScrollView(.vertical, showsIndicators: false){
                 LazyVStack(spacing: 0){
-                    ForEach(cartData.items){item in
-                        ItemView(item: $cartData.items[getIndex(item: item)], items: $cartData.items)
-                        
-                        // new findings: the line of code above does not run when there isn't any code/typed out list items in the cart view model list, for example it does not apply to appended items
-                        //new findings: foreach does run, but ItemView does not execute - issue with binding? - update not an issue with binding
-                        //new findings: brute force for each and reset view
+                    ForEach(cartViewModel.items){item in
+                        ItemView(item: $cartViewModel.items[getIndex(item: item)], items: $cartViewModel.items)
                     }
                 }
             }
@@ -79,7 +73,7 @@ struct CartView: View {
         }
     }
     func getIndex(item: Item)->Int{
-        return $cartData.items.firstIndex { (item1) -> Bool in
+        return $cartViewModel.items.firstIndex { (item1) -> Bool in
             return item.id == item1.id
         } ?? 0
     }
@@ -90,16 +84,17 @@ struct CartView: View {
     }
     func calculateTotalPrice()->String{
         var price : Float = 0
-        cartData.items.forEach { (item) in
+        cartViewModel.items.forEach { (item) in
             price += Float(item.quantity) * item.price
         }
         return getPrice(value: price)
     }
     func clear(){
-        for i in cartData.items.indices {
-            cartData.items[i].quantity = 0
+        for i in cartViewModel.items.indices {
+            cartViewModel.items[i].quantity = 0
         }
     }
+}
     
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
