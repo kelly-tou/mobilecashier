@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddView: View {
-    @StateObject var cartViewModel = CartViewModel()
+    @EnvironmentObject var cartViewModel: CartViewModel
     @Environment(\.self) var env
     @Environment(\.presentationMode) var presentationMode
     @State var itemName: String = ""
