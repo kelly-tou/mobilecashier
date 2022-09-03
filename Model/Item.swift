@@ -7,4 +7,8 @@ struct Item: Identifiable, Codable {
     var quantity: Int
     var offset: CGFloat
     var isSwiped: Bool
+    
+    func updateCompletion() -> Item {
+        return Item(id: id, name: name, price: price, quantity: quantity, offset: offset, isSwiped: isSwiped)
+    }
 }
