@@ -10,11 +10,11 @@ struct CartView: View {
 
                 Spacer()
                 
-                Text("My Items")
+                Text("My Menu")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
-                    .offset(x: 40)
+                    .offset(x: 35)
                 
                 Spacer()
                 
@@ -23,23 +23,32 @@ struct CartView: View {
                     
                 } label: {
                     Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .heavy))
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.vertical, 9)
                         .padding(.horizontal, 17)
-                        .background(.blue)
+                        .background(Color(red: 255 / 255, green: 123 / 255, blue: 0 / 255))
                         .cornerRadius(10)
                 }
             }
-            .padding()
+            .padding(.vertical)
+            .padding(.horizontal, 20)
             
             ScrollView(.vertical, showsIndicators: false){
                 LazyVStack(spacing: 0){
                     ForEach(cartViewModel.items){item in
                         ItemView(item: $cartViewModel.items[getIndex(item: item)], items: $cartViewModel.items)
+                            .padding(.bottom, 10)
                     }
                 }
             }
+            .padding(.horizontal, 35)
+            .padding(.vertical, 20)
+            .background(
+                RoundedRectangle(cornerRadius: 35)
+                    .fill(Color(red: 245 / 255, green: 245 / 255, blue: 245 / 255))
+                    .padding(.horizontal, 15)
+            )
             VStack{
                 HStack{
                     Text("Total")
@@ -51,27 +60,29 @@ struct CartView: View {
                         .fontWeight(.heavy)
                         .foregroundColor(.black)
                 }
-                .padding([.top,.horizontal])
+                .padding(.horizontal, 25)
+                .padding(.top)
                 
                 Button(action:{clear()}){
                     Text("Clear")
-                        .font(.title2)
-                        .fontWeight(.heavy)
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding(12)
                         .foregroundColor(.white)
-                        .padding(.vertical)
-                        .frame(width: UIScreen.main.bounds.width - 30)
-                        .background(.blue)
-                        .cornerRadius(15)
+                        .background(Color(red: 255 / 255, green: 123 / 255, blue: 0 / 255))
+                        .cornerRadius(10)
                 }
+                .padding(.horizontal, 20)
             }
-            .background(Color.white)
         }
-        .background(Color("gray").ignoresSafeArea())
+        .background(Color(.white).ignoresSafeArea())
         .fullScreenCover(isPresented: $cartViewModel.openAddItem) {
             AddView()
                 .environmentObject(cartViewModel)
         }
     }
+    
     func getIndex(item: Item)->Int{
         return $cartViewModel.items.firstIndex { (item1) -> Bool in
             return item.id == item1.id
