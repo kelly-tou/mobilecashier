@@ -86,7 +86,7 @@ struct AddView: View {
         for char in itemPrice {
             let scalarValues = String(char).unicodeScalars
             let charAscii = scalarValues[scalarValues.startIndex].value
-            if charAscii < 48 || charAscii > 57 {
+            if (charAscii != 44 && charAscii != 46) && (charAscii < 48 || charAscii > 57) {
                 return false
             }
         }
