@@ -17,7 +17,10 @@ struct ItemView: View {
                         .frame(width: 90, height: 98.65)
                 }
             }
-            .background(.blue)
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color(red: 230 / 255, green: 57 / 255, blue: 70 / 255))
+            )
 
             HStack(spacing: 15){
                 VStack(alignment: .leading, spacing: 10){
@@ -28,7 +31,7 @@ struct ItemView: View {
                     HStack(spacing: 15){
                         Text(getPrice(value: item.price))
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(red: 255 / 255, green: 123 / 255, blue: 0 / 255))
                         Spacer(minLength: 0)
                         Button(action: {
                             if item.quantity > 0{item.quantity -= 1}
@@ -39,10 +42,11 @@ struct ItemView: View {
                         }
                         Text("\(item.quantity)")
                             .fontWeight(.heavy)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(red: 255 / 255, green: 123 / 255, blue: 0 / 255))
                             .padding(.vertical, 5)
-                            .padding(.horizontal, 10)
-                            .background(Color.black.opacity(0.06))
+//                            .padding(.horizontal, 10)
+//                            .background(Color(red: 255 / 255, green: 195 / 255, blue: 0 / 255))
+//                            .cornerRadius(5)
                         Button(action: {item.quantity += 1}){
                             Image(systemName: "plus")
                                 .font(.system(size: 16, weight: .heavy))
@@ -51,7 +55,10 @@ struct ItemView: View {
                     }
                 }
                 .padding()
-                .background(.white)
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.white)
+                )
                 .contentShape(Rectangle())
                 .offset(x: item.offset)
                 .gesture(DragGesture().onChanged(onChanged(value:)).onEnded(onEnd(value:)))
