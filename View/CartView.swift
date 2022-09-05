@@ -10,7 +10,7 @@ struct CartView: View {
 
                 Spacer()
                 
-                Text("My Menu")
+                Text("My Cart")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
@@ -55,7 +55,7 @@ struct CartView: View {
                         .fontWeight(.heavy)
                         .foregroundColor(.gray)
                     Spacer()
-                    Text(calculateTotalPrice())
+                    Text(cartViewModel.calculateTotalPrice())
                         .font(.title)
                         .fontWeight(.heavy)
                         .foregroundColor(.black)
@@ -63,8 +63,11 @@ struct CartView: View {
                 .padding(.horizontal, 25)
                 .padding(.top)
                 
-                Button(action:{clear()}){
-                    Text("Clear")
+                Button(action:{
+//                    clear()
+                    cartViewModel.openCheckoutView.toggle()
+                }){
+                    Text("Checkout")
                         .font(.callout)
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
@@ -81,29 +84,16 @@ struct CartView: View {
             AddView()
                 .environmentObject(cartViewModel)
         }
+        .fullScreenCover(isPresented: $cartViewModel.openCheckoutView) {
+            CheckoutView()
+                .environmentObject(cartViewModel)
+        }
     }
     
     func getIndex(item: Item)->Int{
         return $cartViewModel.items.firstIndex { (item1) -> Bool in
             return item.id == item1.id
         } ?? 0
-    }
-    func getPrice(value: Float)->String{
-        let format = NumberFormatter()
-        format.numberStyle = .currency
-        return format.string(from: NSNumber(value: value)) ?? ""
-    }
-    func calculateTotalPrice()->String{
-        var price : Float = 0
-        cartViewModel.items.forEach { (item) in
-            price += Float(item.quantity) * item.price
-        }
-        return getPrice(value: price)
-    }
-    func clear(){
-        for i in cartViewModel.items.indices {
-            cartViewModel.items[i].quantity = 0
-        }
     }
 }
     
