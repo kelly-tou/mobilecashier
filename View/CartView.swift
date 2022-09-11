@@ -31,8 +31,6 @@ struct CartView: View {
                         .cornerRadius(10)
                 }
             }
-            .padding(.vertical)
-            .padding(.horizontal, 20)
             
             ScrollView(.vertical, showsIndicators: false){
                 LazyVStack(spacing: 0){
@@ -42,12 +40,10 @@ struct CartView: View {
                     }
                 }
             }
-            .padding(.horizontal, 35)
-            .padding(.vertical, 20)
+            .padding(15)
             .background(
                 RoundedRectangle(cornerRadius: 35)
                     .fill(Color(red: 245 / 255, green: 245 / 255, blue: 245 / 255))
-                    .padding(.horizontal, 15)
             )
             VStack{
                 HStack{
@@ -60,11 +56,9 @@ struct CartView: View {
                         .fontWeight(.heavy)
                         .foregroundColor(.black)
                 }
-                .padding(.horizontal, 25)
-                .padding(.top)
+                .padding(.horizontal, 5)
                 
                 Button(action:{
-//                    clear()
                     cartViewModel.openCheckoutView.toggle()
                 }){
                     Text("Checkout")
@@ -76,9 +70,9 @@ struct CartView: View {
                         .background(Color(red: 255 / 255, green: 123 / 255, blue: 0 / 255))
                         .cornerRadius(10)
                 }
-                .padding(.horizontal, 20)
             }
         }
+        .padding()
         .background(Color(.white).ignoresSafeArea())
         .fullScreenCover(isPresented: $cartViewModel.openAddItem) {
             AddView()
